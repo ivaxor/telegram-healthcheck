@@ -33,7 +33,9 @@ public class HealthCheckController : ControllerBase
     [ProducesResponseType(typeof(string[]), 200)]
     public IActionResult GetIds()
     {
-        var ids = _healthCheckConfigurationProvider.GetIds();
+        var ids = _healthCheckConfigurationProvider
+            .GetIds()
+            .OrderByDescending(_ => _);
         return new OkObjectResult(ids);
     }
 
@@ -70,7 +72,8 @@ public class HealthCheckController : ControllerBase
     public async Task<IActionResult> GetAsync(CancellationToken cancellationToken = default)
     {
         var records = await _healthCheckResponseRepository.GetAsync(cancellationToken);
-        return new OkObjectResult(records);
+        var orderedRecords = records.OrderByDescending(_ => _.Id);
+        return new OkObjectResult(orderedRecords);
     }
 
     /// <summary>
@@ -82,7 +85,8 @@ public class HealthCheckController : ControllerBase
     public async Task<IActionResult> UpdateAsync(CancellationToken cancellationToken = default)
     {
         var records = await _healthCheckService.UpdateAsync(cancellationToken);
-        return new OkObjectResult(records);
+        var orderedRecords = records.OrderByDescending(_ => _.Id);
+        return new OkObjectResult(orderedRecords);
     }
 
     /// <summary>

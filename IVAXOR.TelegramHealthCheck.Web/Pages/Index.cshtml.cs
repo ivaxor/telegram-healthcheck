@@ -25,7 +25,8 @@ namespace IVAXOR.TelegramHealthCheck.Web.Pages
         {
             _logger.LogInformation("Loading index page");
 
-            HealthCheckRecords = await _healthCheckResponseRepository.GetAsync(cancellationToken);
+            var records = await _healthCheckResponseRepository.GetAsync(cancellationToken);
+            HealthCheckRecords = records.OrderByDescending(_ => _.Id);
         }
     }
 }
