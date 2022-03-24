@@ -17,6 +17,12 @@ public class HealthCheckConfiguration
     public string Url { get; set; }
 
     /// <summary>
+    /// Update each
+    /// </summary>
+    [Required]
+    public TimeSpan UpdateEach { get; set; }
+
+    /// <summary>
     /// Telegram chat id
     /// </summary>
     [Required]

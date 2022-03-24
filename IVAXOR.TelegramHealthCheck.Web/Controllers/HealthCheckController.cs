@@ -9,13 +9,16 @@ namespace IVAXOR.TelegramHealthCheck.Web.Controllers;
 [ApiController]
 public class HealthCheckController : ControllerBase
 {
+    private readonly IHealthCheckConfigurationProvider _healthCheckConfigurationProvider;
     private readonly IHealthCheckResponseRepository _healthCheckResponseRepository;
     private readonly IHealthCheckService _healthCheckService;
 
     public HealthCheckController(
+        IHealthCheckConfigurationProvider healthCheckConfigurationProvider,
         IHealthCheckResponseRepository healthCheckResponseRepository,
         IHealthCheckService healthCheckService)
     {
+        _healthCheckConfigurationProvider = healthCheckConfigurationProvider;
         _healthCheckResponseRepository = healthCheckResponseRepository;
         _healthCheckService = healthCheckService;
     }
@@ -30,7 +33,7 @@ public class HealthCheckController : ControllerBase
     [ProducesResponseType(typeof(string[]), 200)]
     public IActionResult GetIds()
     {
-        var ids = _healthCheckService.GetIds();
+        var ids = _healthCheckConfigurationProvider.GetIds();
         return new OkObjectResult(ids);
     }
 
