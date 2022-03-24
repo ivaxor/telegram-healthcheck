@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System.Net;
+using System.Net.Sockets;
 using IVAXOR.TelegramHealthCheck.Models;
 using IVAXOR.TelegramHealthCheck.Services.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -30,6 +31,10 @@ public class EndpointStatusService : IEndpointStatusService
         catch (HttpRequestException exception) when (exception.InnerException is SocketException innerException)
         {
             return new HealthCheckResponse(innerException.SocketErrorCode);
+        }
+        catch (TaskCanceledException exception) when (exception.InnerException is TimeoutException)
+        {
+            return new HealthCheckResponse(HttpStatusCode.RequestTimeout);
         }
         finally
         {
