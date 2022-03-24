@@ -1,0 +1,45 @@
+﻿@page
+@model IndexModel
+
+<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+	<div class="row">
+		@foreach (var record in Model.HealthCheckRecords)
+		{
+			var cardClasses = "card mb-3 text-white";
+			if (record.StatusCode is >= 200 and < 300) cardClasses += " bg-success";
+			else cardClasses += " bg-danger";
+
+			<div class="col-6">
+				<div class="@cardClasses">
+					<div class="card-header">@record.Id</div>
+					<div class="card-body">
+						<h5 class="card-title">
+							@record.StatusText (@record.StatusCode)
+						</h5>
+					</div>
+					<div class="card-footer">
+						@{
+							var timeFromLastCheck = DateTime.UtcNow - record.CheckedAt;
+						}
+						@if (timeFromLastCheck < TimeSpan.FromMinutes(1))
+						{
+							<text>@(Math.Floor(timeFromLastCheck.TotalSeconds)) second(s) ago</text>
+						}
+						else if (timeFromLastCheck < TimeSpan.FromHours(1))
+						{
+							<text>@(Math.Floor(timeFromLastCheck.TotalMinutes)) minute(s) ago</text>
+						}
+						else if (timeFromLastCheck < TimeSpan.FromDays(1))
+						{
+							<text>@(Math.Floor(timeFromLastCheck.TotalHours)) hour(s) ago</text>
+						}
+						else
+						{
+							<text>@(Math.Floor(timeFromLastCheck.TotalDays)) day(s) ago</text>
+						}
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>

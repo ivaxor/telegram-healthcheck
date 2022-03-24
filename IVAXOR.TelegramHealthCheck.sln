@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IVAXOR.TelegramHealthCheck.Web", "IVAXOR.TelegramHealthCheck.Web\IVAXOR.TelegramHealthCheck.Web.csproj", "{D2EE968D-1D43-4E6E-B263-A894847F4022}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IVAXOR.TelegramHealthCheck.Models", "IVAXOR.TelegramHealthCheck.Models\IVAXOR.TelegramHealthCheck.Models.csproj", "{C8BEC383-5B75-4B97-B315-531FDB034AEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IVAXOR.TelegramHealthCheck.Services", "IVAXOR.TelegramHealthCheck.Services\IVAXOR.TelegramHealthCheck.Services.csproj", "{FE7E1C03-4C01-47EE-BFC3-09DEF0484AF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IVAXOR.TelegramHealthCheck.Tests", "IVAXOR.TelegramHealthCheck.Tests\IVAXOR.TelegramHealthCheck.Tests.csproj", "{4D2E17D8-E5F0-403B-BA5C-B4DF96111FA9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2EE968D-1D43-4E6E-B263-A894847F4022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2EE968D-1D43-4E6E-B263-A894847F4022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2EE968D-1D43-4E6E-B263-A894847F4022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2EE968D-1D43-4E6E-B263-A894847F4022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8BEC383-5B75-4B97-B315-531FDB034AEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8BEC383-5B75-4B97-B315-531FDB034AEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8BEC383-5B75-4B97-B315-531FDB034AEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8BEC383-5B75-4B97-B315-531FDB034AEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE7E1C03-4C01-47EE-BFC3-09DEF0484AF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE7E1C03-4C01-47EE-BFC3-09DEF0484AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE7E1C03-4C01-47EE-BFC3-09DEF0484AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE7E1C03-4C01-47EE-BFC3-09DEF0484AF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D2E17D8-E5F0-403B-BA5C-B4DF96111FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D2E17D8-E5F0-403B-BA5C-B4DF96111FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D2E17D8-E5F0-403B-BA5C-B4DF96111FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D2E17D8-E5F0-403B-BA5C-B4DF96111FA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {135FBCBE-EC97-474D-86C4-79324063DF16}
+	EndGlobalSection
+EndGlobal
