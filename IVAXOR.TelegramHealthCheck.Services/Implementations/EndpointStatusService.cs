@@ -28,11 +28,13 @@ public class EndpointStatusService : IEndpointStatusService
             var httpResponse = await _httpClient.GetAsync(url, cancellationToken);
             return new HealthCheckResponse(httpResponse.StatusCode);
         }
-        catch (HttpRequestException exception) when (exception.InnerException is SocketException innerException)
+        catch (HttpRequestException exception)
+            when (exception.InnerException is SocketException { SocketErrorCode: SocketError.TimedOut })
         {
-            return new HealthCheckResponse(innerException.SocketErrorCode);
+            return new HealthCheckResponse(HttpStatusCode.RequestTimeout);
         }
-        catch (TaskCanceledException exception) when (exception.InnerException is TimeoutException)
+        catch (TaskCanceledException exception)
+            when (exception.InnerException is TimeoutException)
         {
             return new HealthCheckResponse(HttpStatusCode.RequestTimeout);
         }
