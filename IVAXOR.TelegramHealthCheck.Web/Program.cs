@@ -1,6 +1,11 @@
 using IVAXOR.TelegramHealthCheck.Web.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.AddConsole();
+#if DEBUG
+builder.Logging.AddDebug();
+#endif
+
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 builder.Services.AddHealthChecks();
