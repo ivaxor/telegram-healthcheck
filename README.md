@@ -21,10 +21,11 @@ To host this application completly for free insure that you are using next setti
 - Azure App Service plan: Use ***F1 tier*** with ***Linux containers***
 
 ### Configuration:
-Configuration for application can be changed in [application settings file](/IVAXOR.TelegramHealthCheck.Web/appsettings.json) or using environmental variables.
 One application instance can have multiple health check endpoints. All endpoints are validated using HTTP GET method.
+
 It's ***NOT RECOMMENDED*** to use `UpdateEach` value less than 2 minutes (`0.00:02:00`) because default `HttpClient.Timeout` are 100 seconds.
 
+Configuration for application can be changed in [application settings file](/IVAXOR.TelegramHealthCheck.Web/appsettings.json) or using environmental variables.
 There are examples how to configure application:
 1. Application settings file:
 ``` json
