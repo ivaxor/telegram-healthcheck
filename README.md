@@ -34,8 +34,8 @@ There are examples how to configure application:
 1. Application settings file:
 ``` json
 "CosmosDbConfiguration": {
-    "ConnectionString": "AccountEndpoint=[AccountEndpoint];AccountKey=[AccountKey];"
-  },
+  "ConnectionString": "AccountEndpoint=[AccountEndpoint];AccountKey=[AccountKey];"
+},
 "HealthCheckConfiguration": [
   {
     "Id": "Azure",
