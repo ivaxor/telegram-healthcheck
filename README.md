@@ -27,7 +27,7 @@ This documentation will not cover any setup for Telegram messenger, but the proc
 ### Application configuration:
 One application instance can have multiple health check endpoints. All endpoints are validated using HTTP GET method.
 
-It's ***NOT RECOMMENDED*** to use `UpdateEach` value less than 2 minutes (`0.00:02:00`) because default `HttpClient.Timeout` are 100 seconds. Otherwise this could cause HTTP requests to be queued with afterwards delays, exceptions or application crashes.
+It's ***NOT RECOMMENDED*** to use `UpdateEach` value less than 2 minutes (`0.00:02:00`) because default value for `HttpClient.Timeout` are 100 seconds. Otherwise this could cause HTTP requests to be queued with afterwards delays, exceptions or application crashes.
 
 Configuration for application can be changed in [application settings file](/IVAXOR.TelegramHealthCheck.Web/appsettings.json) or using environmental variables.
 There are examples how to configure application:
