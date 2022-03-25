@@ -4,10 +4,11 @@ REST web application that provides health check functionality with output to Tel
 ## Before note:
 This application was designed in mind as a fully free hosted service for Azure cloud.
 
-## Requirments:
+## Requirements:
 - [Azure Cosmos DB account](https://azure.microsoft.com/services/cosmos-db/)
 - [Azure App Service plan](https://docs.microsoft.com/azure/app-service/overview-hosting-plans)
 - [Azure App Service](https://azure.microsoft.com/services/app-service)
+- [Telegram bot](https://core.telegram.org/bots)
 
 ## Setup:
 
@@ -15,15 +16,18 @@ This application was designed in mind as a fully free hosted service for Azure c
 1. Create dedicated resource group
 2. Create required resources manually or using [included templates](/AzureTemplates)
 
-To host this application completly for free insure that you are using next settings to achive that:
+To host this application completely for free insure that you are using next settings to achieve that:
 - All: Use the same region across all resources
 - Azure Cosmos DB account: Use ***Free Tier Discount***
 - Azure App Service plan: Use ***F1 tier*** with ***Linux containers***
 
-### Configuration:
+### Telegram:
+This documentation will not cover any setup for Telegram messenger, but the process are straight forward.
+
+### Application configuration:
 One application instance can have multiple health check endpoints. All endpoints are validated using HTTP GET method.
 
-It's ***NOT RECOMMENDED*** to use `UpdateEach` value less than 2 minutes (`0.00:02:00`) because default `HttpClient.Timeout` are 100 seconds.
+It's ***NOT RECOMMENDED*** to use `UpdateEach` value less than 2 minutes (`0.00:02:00`) because default `HttpClient.Timeout` are 100 seconds. Otherwise this could cause HTTP requests to be queued with afterwards delays, exceptions or application crashes.
 
 Configuration for application can be changed in [application settings file](/IVAXOR.TelegramHealthCheck.Web/appsettings.json) or using environmental variables.
 There are examples how to configure application:
@@ -63,7 +67,7 @@ There are examples how to configure application:
 "HealthCheckConfiguration__0__TelegramBotApiKey": "[TelegramBotApiKey]"
 "HealthCheckConfiguration__0__MessageWhenSucceeded": "🟢 Connection restored"
 "HealthCheckConfiguration__0__MessageWhenFailed": "🔴 Connection lost because {StatusText} ({StatusCode})"
-"HealthCheckConfiguration__1__Id": "Azure"
+"HealthCheckConfiguration__1__Id": "Google"
 "HealthCheckConfiguration__1__Url": "https://google.com"
 "HealthCheckConfiguration__1__UpdateEach": "0.00:05:00"
 "HealthCheckConfiguration__1__TelegramChatId": "[TelegramChatId]"
