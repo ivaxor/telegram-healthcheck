@@ -9,34 +9,15 @@ namespace IVAXOR.TelegramHealthCheck.Web.Controllers;
 [ApiController]
 public class HealthCheckController : ControllerBase
 {
-    private readonly IHealthCheckConfigurationProvider _healthCheckConfigurationProvider;
-    private readonly IHealthCheckResponseRepository _healthCheckResponseRepository;
+    private readonly IHealthCheckRecordRepository _healthCheckRecordRepository;
     private readonly IHealthCheckService _healthCheckService;
 
     public HealthCheckController(
-        IHealthCheckConfigurationProvider healthCheckConfigurationProvider,
-        IHealthCheckResponseRepository healthCheckResponseRepository,
+        IHealthCheckRecordRepository healthCheckRecordRepository,
         IHealthCheckService healthCheckService)
     {
-        _healthCheckConfigurationProvider = healthCheckConfigurationProvider;
-        _healthCheckResponseRepository = healthCheckResponseRepository;
+        _healthCheckRecordRepository = healthCheckRecordRepository;
         _healthCheckService = healthCheckService;
-    }
-
-    /// <summary>
-    /// Get all health check configuration ids
-    /// </summary>
-#if !DEBUG
-    [ResponseCache(Duration = 300)]
-#endif
-    [HttpGet("ids")]
-    [ProducesResponseType(typeof(string[]), 200)]
-    public IActionResult GetIds()
-    {
-        var ids = _healthCheckConfigurationProvider
-            .GetIds()
-            .OrderByDescending(_ => _);
-        return new OkObjectResult(ids);
     }
 
     /// <summary>
@@ -54,7 +35,7 @@ public class HealthCheckController : ControllerBase
         [FromRoute][Required] string id,
         CancellationToken cancellationToken = default)
     {
-        var record = await _healthCheckResponseRepository.GetAsync(id, cancellationToken);
+        var record = await _healthCheckRecordRepository.GetAsync(id, cancellationToken);
         if (record == null) return new NotFoundResult();
         else return new OkObjectResult(record);
     }
@@ -71,7 +52,7 @@ public class HealthCheckController : ControllerBase
     [ProducesResponseType(404)]
     public async Task<IActionResult> GetAsync(CancellationToken cancellationToken = default)
     {
-        var records = await _healthCheckResponseRepository.GetAsync(cancellationToken);
+        var records = await _healthCheckRecordRepository.GetAsync(cancellationToken);
         var orderedRecords = records.OrderByDescending(_ => _.Id);
         return new OkObjectResult(orderedRecords);
     }

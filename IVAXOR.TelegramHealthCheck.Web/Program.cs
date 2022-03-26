@@ -1,4 +1,5 @@
-using IVAXOR.TelegramHealthCheck.Web.Infrastructure;
+using IVAXOR.TelegramHealthCheck.Infrastructure.Startup;
+using IVAXOR.TelegramHealthCheck.Web.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
@@ -8,12 +9,12 @@ builder.Logging.AddDebug();
 
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
 builder.Services.AddHealthChecks();
 
-builder.AddSwagger();
-builder.AddServices();
-builder.AddHttpClient();
-await builder.AddCosmosDbAsync();
+SwaggerStartup.Add(builder.Services);
+ServicesStartup.Add(builder.Services);
+await CosmosDbStartup.AddAsync(builder.Configuration, builder.Services);
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
@@ -22,7 +23,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 
-app.AddSwagger();
+SwaggerStartup.Add(app);
 app.UseHealthChecks("/healthcheck");
 
 app.UseHttpsRedirection();

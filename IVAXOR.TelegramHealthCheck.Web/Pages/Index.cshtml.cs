@@ -7,13 +7,13 @@ namespace IVAXOR.TelegramHealthCheck.Web.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger _logger;
-        private readonly IHealthCheckResponseRepository _healthCheckResponseRepository;
+        private readonly IHealthCheckRecordRepository _healthCheckResponseRepository;
 
         public IEnumerable<HealthCheckRecord> HealthCheckRecords { get; set; }
 
         public IndexModel(
             ILogger<IndexModel> logger,
-            IHealthCheckResponseRepository healthCheckResponseRepository)
+            IHealthCheckRecordRepository healthCheckResponseRepository)
         {
             _logger = logger;
             _healthCheckResponseRepository = healthCheckResponseRepository;

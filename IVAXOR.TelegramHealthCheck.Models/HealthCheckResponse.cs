@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Net.Sockets;
 
 namespace IVAXOR.TelegramHealthCheck.Models;
 
@@ -27,7 +26,4 @@ public class HealthCheckResponse
 
     public HealthCheckResponse(HttpStatusCode httpStatusCode)
         : this((int)httpStatusCode, Enum.GetName(httpStatusCode)) { }
-
-    public HealthCheckResponse(SocketError socketError)
-        : this((int)socketError, Enum.GetName(socketError)) { }
 }

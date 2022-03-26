@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using Microsoft.OpenApi.Models;
 
-namespace IVAXOR.TelegramHealthCheck.Web.Infrastructure;
+namespace IVAXOR.TelegramHealthCheck.Web.Startup;
 
 internal static class SwaggerStartup
 {
-    public static void AddSwagger(this WebApplicationBuilder builder)
+    public static void Add(IServiceCollection services)
     {
         var version = GetVersion();
 
@@ -27,13 +27,13 @@ internal static class SwaggerStartup
             }
         };
 
-        builder.Services.AddSwaggerGen(c =>
+        services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc(version, openApiInfo);
         });
     }
 
-    public static void AddSwagger(this WebApplication app)
+    public static void Add(WebApplication app)
     {
         var version = GetVersion();
 

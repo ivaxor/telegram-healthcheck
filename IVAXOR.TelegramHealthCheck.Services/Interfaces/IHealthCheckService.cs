@@ -1,5 +1,4 @@
 ﻿using IVAXOR.TelegramHealthCheck.Models;
-using IVAXOR.TelegramHealthCheck.Models.Configurations;
 
 namespace IVAXOR.TelegramHealthCheck.Services.Interfaces;
 

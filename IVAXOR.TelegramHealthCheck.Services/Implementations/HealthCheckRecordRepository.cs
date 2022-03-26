@@ -1,27 +1,32 @@
 ﻿using System.Net;
 using IVAXOR.TelegramHealthCheck.Models;
+using IVAXOR.TelegramHealthCheck.Models.Constants;
 using IVAXOR.TelegramHealthCheck.Services.Interfaces;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 
 namespace IVAXOR.TelegramHealthCheck.Services.Implementations;
 
-public class CosmosDbHealthCheckRepository : IHealthCheckResponseRepository
+public class HealthCheckRecordRepository : IHealthCheckRecordRepository
 {
     private readonly ILogger _logger;
     private readonly Container _cosmosDbContainer;
 
-    public CosmosDbHealthCheckRepository(
-        ILogger<CosmosDbHealthCheckRepository> logger,
-        Container cosmosDbContainer)
+    public HealthCheckRecordRepository(
+        ILogger<HealthCheckRecordRepository> logger,
+        Database cosmosDbDatabase)
     {
         _logger = logger;
-        _cosmosDbContainer = cosmosDbContainer;
+
+        _cosmosDbContainer = cosmosDbDatabase
+            .CreateContainerIfNotExistsAsync(CosmosDbConstants.Records.ContainerName, CosmosDbConstants.Records.PartitionKeyPath)
+            .GetAwaiter()
+            .GetResult();
     }
 
     public async Task<HealthCheckRecord[]> GetAsync(CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Getting records");
+        _logger.LogInformation("Getting health check records");
 
         var response = await _cosmosDbContainer
             .GetItemQueryIterator<HealthCheckRecord>()

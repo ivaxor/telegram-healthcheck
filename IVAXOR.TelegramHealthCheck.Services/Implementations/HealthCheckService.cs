@@ -1,5 +1,4 @@
 ﻿using IVAXOR.TelegramHealthCheck.Models;
-using IVAXOR.TelegramHealthCheck.Models.Configurations;
 using IVAXOR.TelegramHealthCheck.Models.Constants;
 using IVAXOR.TelegramHealthCheck.Services.Interfaces;
 
@@ -7,26 +6,27 @@ namespace IVAXOR.TelegramHealthCheck.Services.Implementations;
 
 public class HealthCheckService : IHealthCheckService
 {
-    private readonly IHealthCheckConfigurationProvider _healthCheckConfigurationProvider;
     private readonly IEndpointStatusService _endpointStatusService;
-    private readonly IHealthCheckResponseRepository _healthCheckResponseRepository;
+    private readonly IHealthCheckConfigurationRepository _healthCheckConfigurationRepository;
+    private readonly IHealthCheckRecordRepository _healthCheckRecordRepository;
     private readonly ITelegramService _telegramService;
 
     public HealthCheckService(
-        IHealthCheckConfigurationProvider healthCheckConfigurationProvider,
         IEndpointStatusService endpointStatusService,
-        IHealthCheckResponseRepository healthCheckResponseRepository,
+        IHealthCheckConfigurationRepository healthCheckConfigurationRepository,
+        IHealthCheckRecordRepository healthCheckRecordRepository,
         ITelegramService telegramService)
     {
-        _healthCheckConfigurationProvider = healthCheckConfigurationProvider;
         _endpointStatusService = endpointStatusService;
-        _healthCheckResponseRepository = healthCheckResponseRepository;
+        _healthCheckConfigurationRepository = healthCheckConfigurationRepository;
+        _healthCheckRecordRepository = healthCheckRecordRepository;
         _telegramService = telegramService;
     }
-    
+
     public async Task<HealthCheckRecord[]> UpdateAsync(CancellationToken cancellationToken = default)
     {
-        return await _healthCheckConfigurationProvider.Get()
+        var configurations = await _healthCheckConfigurationRepository.GetAsync(cancellationToken);
+        return await configurations
             .ToAsyncEnumerable()
             .SelectAwait(async _ => await UpdateAsync(_, cancellationToken))
             .ToArrayAsync(cancellationToken);
@@ -34,7 +34,7 @@ public class HealthCheckService : IHealthCheckService
 
     public async Task<HealthCheckRecord> UpdateAsync(string id, CancellationToken cancellationToken = default)
     {
-        var configuration = _healthCheckConfigurationProvider.Get(id);
+        var configuration = await _healthCheckConfigurationRepository.GetAsync(id, cancellationToken);
         return await UpdateAsync(configuration, cancellationToken);
     }
 
@@ -45,13 +45,11 @@ public class HealthCheckService : IHealthCheckService
         var response = await _endpointStatusService.CheckAsync(configuration.Url, cancellationToken);
 
         var record = new HealthCheckRecord(configuration.Id, response);
-        var previousRecord = await _healthCheckResponseRepository.GetAsync(configuration.Id, cancellationToken);
-
-        var outdatedAfter = _healthCheckConfigurationProvider.GetOutdatedAfter();
+        var previousRecord = await _healthCheckRecordRepository.GetAsync(configuration.Id, cancellationToken);
 
         var isStatusChanged = previousRecord == null ||
                               previousRecord.StatusCode != record.StatusCode ||
-                              record.CheckedAt - previousRecord.CheckedAt > outdatedAfter;
+                              record.CheckedAt - previousRecord.CheckedAt > configuration.SendMessageAfterDelayMoreThen;
         if (isStatusChanged)
         {
             var message = response.StatusCode is >= 200 and < 300
@@ -68,7 +66,7 @@ public class HealthCheckService : IHealthCheckService
         }
 
 
-        await _healthCheckResponseRepository.SaveAsync(record, cancellationToken);
+        await _healthCheckRecordRepository.SaveAsync(record, cancellationToken);
 
         return record;
     }

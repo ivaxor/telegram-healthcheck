@@ -10,11 +10,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.26.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IVAXOR.TelegramHealthCheck.Infrastructure\IVAXOR.TelegramHealthCheck.Infrastructure.csproj" />
     <ProjectReference Include="..\IVAXOR.TelegramHealthCheck.Models\IVAXOR.TelegramHealthCheck.Models.csproj" />
     <ProjectReference Include="..\IVAXOR.TelegramHealthCheck.Services\IVAXOR.TelegramHealthCheck.Services.csproj" />
   </ItemGroup>
